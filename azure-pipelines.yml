@@ -19,7 +19,7 @@ steps:
 - task: NuGetToolInstaller@1
 - task: MSBuild@1
   inputs:
-    solution: 'DatingAppDatabase.sln'
+    solution: 'DatingAppDatabase/DatingAppDatabase.slqproj'
     msbuildArguments: '/p:OutDir=$(BuildArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
