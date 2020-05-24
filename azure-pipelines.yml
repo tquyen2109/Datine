@@ -20,7 +20,7 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: 'DatingAppDatabase/DatingAppDatabase.sln'
-    msbuildArguments: '/p:OutDir=$(BuildArtifactStagingDirectory)'
+    msbuildArguments: '/p:OutDir=$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
