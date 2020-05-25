@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DatingApp.API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using DatingApplication.Data;
+
 namespace DatingApplication
 {
     public class Startup
@@ -30,6 +31,7 @@ namespace DatingApplication
             services.AddDbContext<DataContext>(x => x.UseSqlServer
            (Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
