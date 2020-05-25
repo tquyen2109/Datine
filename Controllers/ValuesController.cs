@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace DatingApp.API.Controllers
+namespace DatingApplication.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
