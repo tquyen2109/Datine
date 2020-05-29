@@ -73,7 +73,6 @@ namespace DatingApplication
             {
                 app.UseSpaStaticFiles();
             }
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
