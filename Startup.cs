@@ -25,6 +25,7 @@ namespace DatingApplication
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -40,6 +41,7 @@ namespace DatingApplication
             services.AddControllers();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddControllersWithViews();
+            services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -89,6 +91,7 @@ namespace DatingApplication
                 app.UseSpaStaticFiles();
             }
             app.UseRouting();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
