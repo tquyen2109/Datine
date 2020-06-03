@@ -10,7 +10,7 @@ import { AuthService } from '../_services/auth.service';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(private authService: AuthService,
+  constructor(public authService: AuthService,
               private alertify: AlertifyService) { }
 
   ngOnInit() {
@@ -22,11 +22,10 @@ export class NavComponent implements OnInit {
       this.alertify.error(error);
     });
   }
-  loggedIn(){
-    const token = localStorage.getItem('token');
-    return !!token;
+  loggedIn() {
+    return this.authService.loggedIn();
   }
-  logout(){
+  logout() {
     localStorage.removeItem('token');
     this.alertify.message('logged out');
   }
