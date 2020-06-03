@@ -26,10 +26,10 @@ namespace DatingApplication.Controllers
             _config = config;
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register (UserForRegister userForRegister)
+        public async Task<IActionResult> Register(UserForRegister userForRegister)
         {
             userForRegister.Username = userForRegister.Username.ToLower();
-            if(await _repo.UserExists(userForRegister.Username))
+            if (await _repo.UserExists(userForRegister.Username))
                 return BadRequest("User is already existed");
             var userToCreate = new User
             {
@@ -44,32 +44,34 @@ namespace DatingApplication.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLogin userForLogin)
         {
-            var userFromRepo = await _repo.Login(userForLogin.Username.ToLower(), userForLogin.Password);
-            if (userFromRepo == null)
-                return Unauthorized();
-            var claims = new[]
-            {
+           
+                var userFromRepo = await _repo.Login(userForLogin.Username.ToLower(), userForLogin.Password);
+                if (userFromRepo == null)
+                    return Unauthorized();
+                var claims = new[]
+                {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name, userFromRepo.Username)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            var tokenDescriptior = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+                var tokenDescriptior = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(claims),
+                    Expires = DateTime.Now.AddDays(1),
+                    SigningCredentials = creds
+                };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = tokenHandler.CreateToken(tokenDescriptior);
+                var token = tokenHandler.CreateToken(tokenDescriptior);
 
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token)
-            });
+                return Ok(new
+                {
+                    token = tokenHandler.WriteToken(token)
+                });
+          
         }
     }
 }
