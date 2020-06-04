@@ -12,12 +12,20 @@ import { RegisterComponent } from './register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { MemberListComponent } from './member-list/member-list.component';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
 @NgModule({
    declarations: [
       AppComponent,
       NavComponent,
       HomeComponent,
-      RegisterComponent
+      RegisterComponent,
+      MemberListComponent,
+      ListsComponent,
+      MessagesComponent
    ],
    imports: [
       BrowserModule,
@@ -25,7 +33,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
       FormsModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
-      AngularFontAwesomeModule
+      AngularFontAwesomeModule,
+      RouterModule.forRoot(appRoutes)
    ],
    providers: [
       AuthService,
