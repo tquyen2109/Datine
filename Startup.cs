@@ -40,6 +40,7 @@ namespace DatingApplication
            (Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddControllersWithViews();
             services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
