@@ -15,7 +15,7 @@ constructor() { }
     });
   }
   
-  sucess(message: string) {
+  success(message: string) {
     alertify.success(message);
   }
 
