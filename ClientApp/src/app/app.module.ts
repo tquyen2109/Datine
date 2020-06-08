@@ -1,3 +1,6 @@
+import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { UserService } from './_services/user.service';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
@@ -55,7 +58,10 @@ export function tokenGetter(){
    ],
    providers: [
       AuthService,
-      ErrorInterceptorProvider
+      ErrorInterceptorProvider,
+      MemberDetailResolver,
+      MemberListResolver,
+      UserService
    ],
    bootstrap: [
       AppComponent
