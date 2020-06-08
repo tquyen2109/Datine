@@ -3,7 +3,7 @@ import { UserService } from './_services/user.service';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -23,9 +23,15 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtModule } from '@auth0/angular-jwt';
-
+import {NgxGalleryModule} from 'ngx-gallery';
 export function tokenGetter(){
    return localStorage.getItem('token');
+}
+export class CustomHammerConfig extends HammerGestureConfig  {
+   overrides = {
+       pinch: { enable: false },
+       rotate: { enable: false }
+   };
 }
 @NgModule({
    declarations: [
@@ -47,6 +53,7 @@ export function tokenGetter(){
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       AngularFontAwesomeModule,
+      NgxGalleryModule,
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({
          config: {
@@ -61,7 +68,8 @@ export function tokenGetter(){
       ErrorInterceptorProvider,
       MemberDetailResolver,
       MemberListResolver,
-      UserService
+      UserService,
+      { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
    ],
    bootstrap: [
       AppComponent
