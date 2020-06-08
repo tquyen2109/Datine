@@ -1,3 +1,4 @@
+import { PreventUsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { HomeComponent } from './home/home.component';
@@ -18,7 +19,8 @@ export const appRoutes: Routes = [
         children: [
             {path: 'members', component: MemberListComponent, resolve: {users: MemberListResolver}},
             {path: 'members/:id', component: MemberDetailComponent, resolve: {user: MemberDetailResolver}},
-            {path: 'member/edit', component: MemberEditComponent, resolve: {user: MemberEditResolver}},
+            {path: 'member/edit', component: MemberEditComponent, 
+                resolve: {user: MemberEditResolver}, canDeactivate: [PreventUsavedChanges]},
             {path: 'messages', component: MessagesComponent},
             {path: 'list', component: ListsComponent},
         ]
