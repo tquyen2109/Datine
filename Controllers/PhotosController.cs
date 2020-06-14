@@ -49,7 +49,7 @@ namespace DatingApplication.Controllers
             return Ok(photo);
         }
       [HttpPost]
-      public async Task<IActionResult> AddPHotoForUser (int userId, PhotoForCreation photoForCreationDto)
+      public async Task<IActionResult> AddPHotoForUser (int userId, [FromForm]PhotoForCreation photoForCreationDto)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
