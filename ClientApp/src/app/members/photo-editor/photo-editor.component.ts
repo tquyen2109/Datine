@@ -11,7 +11,7 @@ import { FileUploader } from 'ng2-file-upload';
   styleUrls: ['./photo-editor.component.css'],
 })
 export class PhotoEditorComponent implements OnInit {
-  @Input() photos: Photo;
+  @Input() photos: Photo[];
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   response: string;
@@ -35,6 +35,18 @@ export class PhotoEditorComponent implements OnInit {
     });
 
     this.uploader.onAfterAddingFile = (file) => {file.withCredentials = false; };
-   
+    this.uploader.onSuccessItem = (item,response, status, headers) => {
+      if(response) {
+        const res: Photo = JSON.parse(response);
+        const photo = {
+          id: res.id,
+          url: res.url,
+          dateAdded: res.dateAdded,
+          description: res.description,
+          isMain: res.isMain
+        };
+        this.photos.push(photo);
+      }     
+    }
   }
 }
