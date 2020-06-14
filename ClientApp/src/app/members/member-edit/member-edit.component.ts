@@ -1,3 +1,4 @@
+import { Photo } from './../../_models/photo';
 import { AuthService } from './../../_services/auth.service';
 import { UserService } from './../../_services/user.service';
 import { AlertifyService } from './../../_services/alertify.service';
@@ -36,8 +37,10 @@ export class MemberEditComponent implements OnInit {
       this.editForm.reset(this.user);
     }, error => {
       this.alertify.error(error);
-    });
-   
+    });  
+  }
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 
 }
