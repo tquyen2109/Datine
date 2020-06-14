@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApplication.Data;
 using DatingApplication.Dtos;
 using DatingApplication.Model;
@@ -20,10 +21,13 @@ namespace DatingApplication.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        private readonly IMapper _mapper;
+
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
         {
             _repo = repo;
             _config = config;
+            _mapper = mapper;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegister userForRegister)
@@ -66,10 +70,12 @@ namespace DatingApplication.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler();
 
                 var token = tokenHandler.CreateToken(tokenDescriptior);
+                var user = _mapper.Map<UserForList>(userFromRepo);
 
                 return Ok(new
                 {
-                    token = tokenHandler.WriteToken(token)
+                    token = tokenHandler.WriteToken(token),
+                    user
                 });
           
         }

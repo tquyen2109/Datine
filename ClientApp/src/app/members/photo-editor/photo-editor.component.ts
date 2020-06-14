@@ -24,6 +24,7 @@ export class PhotoEditorComponent implements OnInit {
               private alertify: AlertifyService) {}
   ngOnInit(){
     this.initializeUploader();
+    
   }
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
@@ -58,11 +59,24 @@ export class PhotoEditorComponent implements OnInit {
     this.userService.setMainPhoto(this.authSerive.decodedToken.nameid, photo.id).subscribe(() => {
       this.currentMain = this.photos.filter(p => p.isMain === true)[0];
       this.currentMain.isMain = false;
-      photo.isMain = true;
-      this.getMemberPhotoChange.emit(photo.url);
+      photo.isMain = true;   
+      this.authSerive.changeMemberPhoto(photo.url);
+      this.authSerive.currentUser.photoUrl = photo.url;
+      localStorage.setItem('user', JSON.stringify(this.authSerive.currentUser));
       console.log('Successfully set to main');
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  deletePhoto(id: number){
+    this.alertify.confirm('Are you sure you want to delete this photo?', () => {
+      this.userService.deletePhoto(this.authSerive.decodedToken.nameid, id).subscribe(() => {
+        this.photos.splice(this.photos.findIndex(p => p.id === id), 1);
+        this.alertify.success('Photo has been deleted');
+      }, error => {
+        this.alertify.error('Failed to delete the photo');
+      });
+    })
   }
 }
