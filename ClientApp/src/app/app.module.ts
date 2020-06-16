@@ -29,6 +29,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import {NgxGalleryModule} from 'ngx-gallery';
 import { TimeagoModule } from 'ngx-timeago';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -66,6 +67,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       BsDropdownModule.forRoot(),
       PaginationModule.forRoot(),
       TabsModule.forRoot(),
+      ButtonsModule.forRoot(),
       AngularFontAwesomeModule,
       NgxGalleryModule,
       FileUploadModule,
