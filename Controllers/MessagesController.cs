@@ -40,7 +40,8 @@ namespace DatingApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, MessageForCreation messageForCreation)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            var sender = await _repo.GetUser(userId);
+            if (sender.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
             messageForCreation.SenderId = userId;
             var recipient = await _repo.GetUser(messageForCreation.RecipientId);
@@ -80,6 +81,8 @@ namespace DatingApplication.Controllers
             var messageThread = _mapper.Map<IEnumerable<MessageToReturn>>(messageFromRepo);
             return Ok(messageThread);
         }
+
+       
        
     }
 }
