@@ -10,7 +10,7 @@ export interface Message {
     recipientPhotoUrl: string;
     content: string;
     isRead: boolean;
-    dataRead: Date;
+    dateRead: Date;
     messageSent: Date;
 
 }
