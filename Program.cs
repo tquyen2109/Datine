@@ -1,5 +1,7 @@
 using DatingApplication.Data;
+using DatingApplication.Model;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +21,9 @@ namespace DatingApplication
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
+                    var userManger = services.GetRequiredService<UserManager<User>>();
                     context.Database.Migrate();
-                    Seed.SeedUsers(context);
+                    Seed.SeedUsers(userManger);
                 }
                 catch(Exception ex)
                 {
