@@ -56,11 +56,10 @@ namespace DatingApplication.Controllers
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLogin.Password, false);
             if (result.Succeeded)
             {
-                var appUser = _mapper.Map<UserForList>(user);
-
+                var appUser = _mapper.Map<UserForList>(user);             
                 return Ok(new
                 {
-                    token = GenerateJwtToken(user),
+                    token = await GenerateJwtToken(user),
                     user = appUser
                 });
             }
@@ -71,13 +70,19 @@ namespace DatingApplication.Controllers
           
         }
 
-        private string GenerateJwtToken(User user)
+        private async Task<string> GenerateJwtToken(User user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
                {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName)
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
@@ -91,6 +96,7 @@ namespace DatingApplication.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptior);
+            //var test = tokenHandler.WriteToken(token);
             return tokenHandler.WriteToken(token);
         }
     }
