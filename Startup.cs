@@ -87,7 +87,12 @@ namespace DatingApplication
                 configuration.RootPath = "ClientApp/dist";
             });
             services.AddScoped<LogUserActivity>();
-           
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ModeratorPhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
